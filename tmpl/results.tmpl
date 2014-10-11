@@ -1,0 +1,55 @@
+{{template "header.tmpl" .}}
+
+<h1>SHA1 &amp; Google Chrome Checker</h1>
+<h2>Results for {{.ServerName}}</h2>
+
+{{ if .Affected.SHA1 }}
+<table class="pure-table pure-table-horizontal" id="affectedTable">
+<thead>
+<tr>
+    <th>Chrome Version</th>
+    <th>Mixed Content Warning</th>
+    <th>No Security</th>
+    <th>Insecure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>Chrome 39</td>
+    <td>{{with .Affected.Chrome39.MinorErrors}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>{{with .Affected.Chrome39.NoSecurity}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>{{with .Affected.Chrome39.Insecure}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+</tr>
+<tr>
+    <td>Chrome 40</td>
+    <td>{{with .Affected.Chrome40.MinorErrors}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>{{with .Affected.Chrome40.NoSecurity}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>{{with .Affected.Chrome40.Insecure}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+</tr>
+<tr>
+    <td>Chrome 41</td>
+    <td>{{with .Affected.Chrome41.MinorErrors}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>{{with .Affected.Chrome41.NoSecurity}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>{{with .Affected.Chrome41.Insecure}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+</tr>
+</tbody>
+</table>
+{{end}}
+
+<p>
+{{if and .Affected.SHA1 .Affected.Expiry}}
+The certificates for {{ .ServerName }} will be affected by Google Chrome's SHA1 deprecation policy.
+{{else if .Affected.SHA1}}
+Although {{ .ServerName }} has at least one SHA1 certificate in its chain, due to the end identities expiry date ({{ .Affected.ExpiryDate }}), the site will not be affected.</p>
+
+<p>Renewing this certificate and continuing to have a SHA1 signature will likely cause this certificate to be affected.
+{{else}}
+The certificates for {{ .ServerName }} do not contain SHA1 signatures and won't be affected.
+{{end}}
+</p>
+
+<h2>Check Another</h2>
+
+{{template "checkForm.tmpl"}}
+
+{{template "footer.tmpl" .}}

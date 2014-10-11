@@ -3,25 +3,15 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
+	"text/template"
 )
 
-var (
-	sha1Signature,
-	affected bool
-)
-
-type affectedStages struct {
-	Chrome39, Chrome40, Chrome41 chromeWarnings
-	Expiry                       bool
-	SHA1                         bool
-	ExpiryDate                   string
-}
-
-type chromeWarnings struct {
-	MinorErrors, NoSecurity, Insecure bool
-}
+var templates = template.Must(template.ParseFiles("tmpl/header.tmpl", "tmpl/footer.tmpl", "tmpl/homepage.tmpl", "tmpl/results.tmpl", "tmpl/checkForm.tmpl"))
 
 func main() {
+
+	startWebServer()
 
 	serverName := "yahoo.com"
 
@@ -41,6 +31,17 @@ func main() {
 	} else {
 		fmt.Println("You don't have any SHA1 certificates in your chain. Good for you.")
 	}
+
+}
+
+func startWebServer() {
+
+	http.HandleFunc("/", homepageHandler)
+	http.HandleFunc("/results", resultsHandler)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
+	log.Println("Listening....")
+	http.ListenAndServe(":3000", nil)
 
 }
 
