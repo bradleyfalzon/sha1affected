@@ -4,10 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"text/template"
 )
-
-var templates = template.Must(template.ParseFiles("tmpl/header.tmpl", "tmpl/footer.tmpl", "tmpl/homepage.tmpl", "tmpl/results.tmpl", "tmpl/checkForm.tmpl"))
 
 func main() {
 
@@ -35,6 +32,8 @@ func main() {
 }
 
 func startWebServer() {
+
+	rateLimit = make(map[string]int64)
 
 	http.HandleFunc("/", homepageHandler)
 	http.HandleFunc("/results", resultsHandler)

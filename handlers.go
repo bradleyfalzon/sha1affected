@@ -31,6 +31,17 @@ func resultsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	serverName := r.URL.Query()["server"][0]
 
+	exceeded, err := checkRateLimit(serverName)
+	if err != nil {
+		errorHandler(w, r, http.StatusInternalServerError, err)
+		return
+	}
+
+	if exceeded {
+		errorHandler(w, r, 429, errors.New("Rate limit exceeded for: "+serverName))
+		return
+	}
+
 	affected, err := checkServer(serverName)
 	if err != nil {
 		errorHandler(w, r, http.StatusInternalServerError, err)
