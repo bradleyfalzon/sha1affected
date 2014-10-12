@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,9 +9,22 @@ import (
 
 func main() {
 
-	startWebServer()
+	port := flag.Int("port", 3000, "Port number for web server to listen on.")
+	serverName := flag.String("connect", "", "Check a single server and exit.")
 
-	serverName := "yahoo.com"
+	flag.Parse()
+
+	if *serverName == "" {
+		startWebServer(*port)
+	} else {
+		cliCheck(*serverName)
+	}
+
+}
+
+func cliCheck(serverName string) {
+
+	log.Println("Checking server:", serverName)
 
 	affected, err := checkServer(serverName)
 	if err != nil {
@@ -18,8 +32,7 @@ func main() {
 	}
 
 	if affected.SHA1 && affected.Expiry {
-		fmt.Println("You have a SHA1 certificate and an expiry date that will be affected.")
-		fmt.Printf("%#v\n", affected)
+		fmt.Printf("You have a SHA1 certificate and an expiry date (%s) that will be affected.", affected.ExpiryDate)
 		fmt.Printf("Chrome 39: Minor Errors %v, No Security %v, Insecure %v\n", affected.Chrome39.MinorErrors, affected.Chrome39.NoSecurity, affected.Chrome39.Insecure)
 		fmt.Printf("Chrome 40: Minor Errors %v, No Security %v, Insecure %v\n", affected.Chrome40.MinorErrors, affected.Chrome40.NoSecurity, affected.Chrome40.Insecure)
 		fmt.Printf("Chrome 41: Minor Errors %v, No Security %v, Insecure %v\n", affected.Chrome41.MinorErrors, affected.Chrome41.NoSecurity, affected.Chrome41.Insecure)
@@ -31,7 +44,7 @@ func main() {
 
 }
 
-func startWebServer() {
+func startWebServer(port int) {
 
 	rateLimit = make(map[string]int64)
 
@@ -39,8 +52,9 @@ func startWebServer() {
 	http.HandleFunc("/results", resultsHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
-	log.Println("Listening....")
-	http.ListenAndServe(":3000", nil)
+	log.Println("Starting web server on port:", port)
+	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	log.Println("Finished listening....")
 
 }
 
