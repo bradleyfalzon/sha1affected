@@ -2,8 +2,23 @@
 
 <h1>SHA1 &amp; Google Chrome Checker</h1>
 
-<p>Check a remote server's SSL/TLS certificate to determine whether, and at what stage, a certificate be affected by Google Chrome's new rules.</p>
+<p>Beginning in October 2014, Google Chrome will start to show warnings for many sites with SSL/TLS certificates signed with the aging SHA1 signature algorithm.</p>
+
+<p>Google Chrome will slowly phase this in based on when the end-identities certificate expires (and if any certificate uses SHA1). Depending on the end-identities expiry date will depend on the severity of the warning - also - each consecutive version of Google Chrome, beginning with Google Chrome 39, will potentially make the warning more severe.</p>
+
+<p>Type in a website below, that uses SSL/TLS, to check if it is affected, and if so, which warning will occur and approximately when.</p>
 
 {{template "checkForm.tmpl"}}
+
+<h2>More Information</h2>
+
+<ul>
+<li><a href="https://community.qualys.com/blogs/securitylabs/2014/09/09/sha1-deprecation-what-you-need-to-know">Qualys Blog</a> has a great overview available.</li>
+<li>Of course, check out the <a href="http://googleonlinesecurity.blogspot.co.uk/2014/09/gradually-sunsetting-sha-1.html">Google's offical announcement</a>.</li>
+<li>The solution is to move to SHA2 (which is a set of hashes which includes SHA256), but this breaks Windows XP SP2 and below - Global Sign has a good writeup on <a href="https://www.globalsign.eu/sha-256-compatibility/">SHA256 compatibility</a>.</li>
+<li>Microsoft has an existing <a href="http://blogs.technet.com/b/pki/archive/2013/11/12/sha1-deprecation-policy.aspx">SHA1 deprecation policy</a> for certificates issued after 2017-01-01.</li>
+<li>Many SSL/TLS Certificate Authorities will resign your existing certificates with SHA256 for free.</li>
+<li>I believe the Apache Web Server supports multiple certificates, so if SHA1 support is required, you *might* be able to avoid Google Chrome's SHA1 warnings and support very old clients (Windows XP SP2).</li>
+</ul>
 
 {{template "footer.tmpl" .}}

@@ -1,5 +1,7 @@
 
 body { padding: 0 15px; }
+li {margin-bottom: 5px; }
+
 #affectedTable .affected {
     color: red;
     display: inline-block;
