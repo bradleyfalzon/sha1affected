@@ -14,7 +14,7 @@ func getTLSState(serverName string) (state tls.ConnectionState, err error) {
 		serverName = serverName + ":443"
 	}
 
-	conn, err := tls.Dial("tcp", serverName, &tls.Config{})
+	conn, err := tls.Dial("tcp", serverName, &tls.Config{InsecureSkipVerify: true})
 	if err != nil {
 		return
 	}
