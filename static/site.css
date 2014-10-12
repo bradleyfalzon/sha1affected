@@ -12,8 +12,11 @@ footer { margin: 15px 0; text-align: center; font-size: 0.9em; color: #d7d7d7; }
 footer a { display: inline-block; margin: 0 15px; }
 
 #affectedTable th, #affectedTable td { text-align: center; }
+#affectedTable th { vertical-align: top; }
+#affectedTable .imgCont { margin-top: 5px; }
 
-#affectedTable { table-layout: fixed; }
+#affectedTable { table-layout: fixed; margin: 0 auto;}
+#affectedTable .releaseDate { color: #616161; font-size: 0.8em; margin-top: 5px; }
 
 .serverInput { margin-bottom: 15px; }
 

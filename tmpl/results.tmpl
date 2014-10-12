@@ -8,29 +8,29 @@
 <thead>
 <tr>
     <th>Chrome Version</th>
-    <th>Mixed Content Warning</th>
-    <th>No Security</th>
-    <th>Insecure</th>
+    <th>Security Warning<div class="imgCont"><img src="static/mixedContent.png" ></div></th>
+    <th>No Security<div class="imgCont"><img src="static/noSecurity.png" ></div></th>
+    <th>Security Error<div class="imgCont"><img src="static/securityError.png" ></div></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-    <td>Chrome 39</td>
-    <td>{{with .Affected.Chrome39.MinorErrors}}<span class="affected">Y</span>{{else}}N{{end}}</td>
-    <td>{{with .Affected.Chrome39.NoSecurity}}<span class="affected">Y</span>{{else}}N{{end}}</td>
-    <td>{{with .Affected.Chrome39.Insecure}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>Chrome 39<div class="releaseDate">October/November 2014?</div></td>
+    <td>{{with .Affected.Chrome39.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
+    <td>{{with .Affected.Chrome39.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
+    <td>{{with .Affected.Chrome39.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
 </tr>
 <tr>
-    <td>Chrome 40</td>
-    <td>{{with .Affected.Chrome40.MinorErrors}}<span class="affected">Y</span>{{else}}N{{end}}</td>
-    <td>{{with .Affected.Chrome40.NoSecurity}}<span class="affected">Y</span>{{else}}N{{end}}</td>
-    <td>{{with .Affected.Chrome40.Insecure}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>Chrome 40<div class="releaseDate">After Holiday Season</div></td>
+    <td>{{with .Affected.Chrome40.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
+    <td>{{with .Affected.Chrome40.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
+    <td>{{with .Affected.Chrome40.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
 </tr>
 <tr>
-    <td>Chrome 41</td>
-    <td>{{with .Affected.Chrome41.MinorErrors}}<span class="affected">Y</span>{{else}}N{{end}}</td>
-    <td>{{with .Affected.Chrome41.NoSecurity}}<span class="affected">Y</span>{{else}}N{{end}}</td>
-    <td>{{with .Affected.Chrome41.Insecure}}<span class="affected">Y</span>{{else}}N{{end}}</td>
+    <td>Chrome 41<div class="releaseDate">Q1 2015</div></td>
+    <td>{{with .Affected.Chrome41.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
+    <td>{{with .Affected.Chrome41.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
+    <td>{{with .Affected.Chrome41.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
 </tr>
 </tbody>
 </table>
