@@ -9,11 +9,21 @@ Usage
 
 An online checker available at [sha1affected.com](http://sha1affected.com).
 
-Alternatively you can run this yourself (assuming you have Git and Go already installed)
-    # git clone https://github.com/bradleyfalzon/sha1affected.git
-    # cd sha1affected
-    # go build
-    # ./sha1affected
+Alternatively you can run this yourself (assuming you have Git and Go already installed):
 
-This method will start the web server on port 3000 (use ```-port``` parameter to change this), and can also check a single host with
-the ```-connect``` parameter.
+```bash
+# git clone https://github.com/bradleyfalzon/sha1affected.git
+# cd sha1affected
+# go build
+# ./sha1affected
+```
+
+Default behaviour will start the web server on port 3000 (use ```-port``` parameter to change this). You can also check
+a single host without starting the web server using the the ```-connect``` parameter.
+
+```bash
+# ./sha1affected <- start web server on port 3000
+# ./sha1affected -port 80 <- start web server on port 80
+# ./sha1affected -connect yahoo.com <- check server yahoo.com
+# ./sha1affected -connect yahoo.com:443 <- optionall specify a port to connect to
+```
