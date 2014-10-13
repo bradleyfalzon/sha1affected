@@ -11,7 +11,7 @@ const rateLimitSeconds = 3
 
 var templates = template.Must(template.ParseFiles("tmpl/header.tmpl", "tmpl/footer.tmpl", "tmpl/homepage.tmpl", "tmpl/results.tmpl", "tmpl/checkForm.tmpl"))
 
-var URLProtoRE = regexp.MustCompile("^[a-zA-Z0-9]://")
+var URLProtoRE = regexp.MustCompile("^[a-zA-Z0-9]+://")
 
 var rateLimit map[string]int64
 var rateLimitMux sync.Mutex
