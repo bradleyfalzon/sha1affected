@@ -6,7 +6,7 @@
 {{if and .Affected.SHA1 .Affected.Expiry}}
 <p class="msg error">The certificates for {{ .ServerName }} will be affected by Google Chrome's SHA1 deprecation policy.</p>
 {{else if .Affected.SHA1}}
-<p class="msg success">Although {{ .ServerName }} has at least one SHA1 certificate in its chain, due to the end identities expiry date ({{ .Affected.ExpiryDate }}), the site will not be affected.</p>
+<p class="msg success">Although {{ .ServerName }} has at least one SHA1 certificate in its chain, due to the end identities expiry date ({{ .Affected.Certificate.ExpiryDate }}), the site will not be affected.</p>
 
 <p class="msg warning">Renewing this certificate and continuing to have a SHA1 signature will likely cause this certificate to be affected.</p>
 {{else}}

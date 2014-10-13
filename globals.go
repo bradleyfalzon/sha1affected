@@ -20,7 +20,6 @@ type affectedStages struct {
 	Chrome39, Chrome40, Chrome41 chromeWarnings
 	Expiry                       bool
 	SHA1                         bool
-	ExpiryDate                   string
 	Certificate                  certificate
 	RootCertificate              certificate
 	Intermediates                []certificate

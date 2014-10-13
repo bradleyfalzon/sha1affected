@@ -13,8 +13,6 @@ func datesAffected(expiry time.Time) (affected affectedStages, err error) {
 		return
 	}
 
-	affected.ExpiryDate = expiry.Format("2006-01-02")
-
 	// Do stage 1 checks (Chrome 39)
 	//	if certificate expires on or after 2017-01-01
 	//		- secure but with minor errors
