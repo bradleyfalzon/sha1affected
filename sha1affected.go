@@ -26,7 +26,12 @@ func cliCheck(serverName string) {
 
 	log.Println("Checking server:", serverName)
 
-	affected, err := checkServer(serverName)
+	host, err := parseServerName(serverName)
+	if err != nil {
+		return
+	}
+
+	affected, err := checkServer(host)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -58,9 +63,9 @@ func startWebServer(port int) {
 
 }
 
-func checkServer(serverName string) (affected affectedStages, err error) {
+func checkServer(host string) (affected affectedStages, err error) {
 
-	state, err := getTLSState(serverName)
+	state, err := getTLSState(host)
 	if err != nil {
 		return
 	}

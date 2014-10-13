@@ -3,7 +3,9 @@ package main
 import (
 	"crypto/tls"
 	"errors"
+	"log"
 	"net"
+	"net/url"
 	"strings"
 	"time"
 )
@@ -13,6 +15,8 @@ func getTLSState(serverName string) (state tls.ConnectionState, err error) {
 	if !strings.Contains(serverName, ":") {
 		serverName = serverName + ":443"
 	}
+
+	log.Println("Connecting to:", serverName)
 
 	conn, err := tls.Dial("tcp", serverName, &tls.Config{InsecureSkipVerify: true})
 	if err != nil {
@@ -64,6 +68,25 @@ func checkRateLimit(serverName string) (exceeded bool, err error) {
 	rateLimitMux.Lock()
 	rateLimit[addrs[0].String()] = time.Now().Unix()
 	rateLimitMux.Unlock()
+
+	return
+
+}
+
+func parseServerName(serverName string) (host string, err error) {
+
+	url, err := url.Parse(serverName)
+	if err != nil {
+		return
+	}
+
+	if url.Host == "" {
+		err = errors.New("Could not parse server name: " + serverName)
+		return
+	}
+	host = url.Host
+
+	log.Println("Parsed to host:", host)
 
 	return
 

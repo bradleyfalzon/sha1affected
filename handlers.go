@@ -18,12 +18,9 @@ func homepageHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error executing template homepage: ", err)
 	}
 
-	log.Println("Got request")
 }
 
 func resultsHandler(w http.ResponseWriter, r *http.Request) {
-
-	log.Println("Got request to results")
 
 	if len(r.URL.Query()["server"]) == 0 {
 		errorHandler(w, r, http.StatusBadRequest, errors.New("server not set"))
@@ -31,7 +28,12 @@ func resultsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	serverName := r.URL.Query()["server"][0]
 
-	exceeded, err := checkRateLimit(serverName)
+	host, err := parseServerName(serverName)
+	if err != nil {
+		return
+	}
+
+	exceeded, err := checkRateLimit(host)
 	if err != nil {
 		errorHandler(w, r, http.StatusInternalServerError, err)
 		return
@@ -42,7 +44,7 @@ func resultsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	affected, err := checkServer(serverName)
+	affected, err := checkServer(host)
 	if err != nil {
 		errorHandler(w, r, http.StatusInternalServerError, err)
 		return
