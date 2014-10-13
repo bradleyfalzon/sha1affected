@@ -6,7 +6,7 @@ import (
 )
 
 // Per IP address rate limit in seconds
-const rateLimitSeconds = 15
+const rateLimitSeconds = 3
 
 var templates = template.Must(template.ParseFiles("tmpl/header.tmpl", "tmpl/footer.tmpl", "tmpl/homepage.tmpl", "tmpl/results.tmpl", "tmpl/checkForm.tmpl"))
 
