@@ -53,14 +53,11 @@ func datesAffected(expiry time.Time) (affected affectedStages, err error) {
 
 func analyseCerts(certs []*x509.Certificate, affected *affectedStages) {
 
-	for k, cert := range certs {
+	for _, cert := range certs {
 		summary := certificate{}
 
-		if len(certs) == 1 || k < len(certs)-1 {
-			// Ignore root certificate but only if there's more than one. This simply assumes
-			// that the certificates are returned in a gurantee order, which may only be
-			// conincidental and not guranteed.
-			// TODO check if crypto/tls is even returning this if the server didn't send it.
+		if !isRootCA(cert) {
+			// Ignore root certificate as no-one trusts the signature itself
 
 			switch cert.SignatureAlgorithm {
 			case x509.SHA1WithRSA:
@@ -101,9 +98,9 @@ func analyseCerts(certs []*x509.Certificate, affected *affectedStages) {
 			summary.ValidFor = strings.Join(cert.DNSNames, ", ")
 		}
 
-		if k == 0 {
+		if !cert.IsCA {
 			affected.Certificate = summary
-		} else if k == len(certs)-1 {
+		} else if isRootCA(cert) {
 			affected.RootCertificate = summary
 		} else {
 			affected.Intermediates = append(affected.Intermediates, summary)
@@ -111,4 +108,17 @@ func analyseCerts(certs []*x509.Certificate, affected *affectedStages) {
 
 	}
 
+}
+
+func isRootCA(cert *x509.Certificate) bool {
+	if !cert.IsCA {
+		// Ignore self signed certificates
+		return false
+	}
+
+	if cert.Issuer.CommonName == cert.Subject.CommonName {
+		// One day, actually check if the cert is actually signing itself
+		return true
+	}
+	return false
 }

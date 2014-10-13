@@ -56,7 +56,7 @@
     <tr><td>End Identity</td><td>{{.ValidFor}}</td><td>{{.ExpiryDate}}</td><td>{{.SigAlg}}</td></tr>
 {{end}}
 {{range .Affected.Intermediates}}
-    <tr><td>Intermediates</td><td>{{.ValidFor}}</td><td>{{.ExpiryDate}}</td><td>{{.SigAlg}}</td></tr>
+    <tr><td>Intermediate</td><td>{{.ValidFor}}</td><td>{{.ExpiryDate}}</td><td>{{.SigAlg}}</td></tr>
 {{end}}
 {{with .Affected.RootCertificate}}
     {{if .ValidFor}}
