@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -73,6 +74,12 @@ func checkServer(host string) (affected affectedStages, err error) {
 	affected, err = datesAffected(state.PeerCertificates[0].NotAfter)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	if len(state.PeerCertificates) == 0 {
+		log.Printf("Error, found %d PeerCertificates and %d verified chains\n", len(state.PeerCertificates), len(state.VerifiedChains))
+		err = errors.New("Could not verify certificate chain, are you missing an intermediate certificate?")
+		return
 	}
 
 	analyseCerts(state.PeerCertificates, &affected)
