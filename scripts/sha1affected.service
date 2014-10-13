@@ -1,0 +1,11 @@
+[Unit]
+Description=Manage sha1affected service
+Requires=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sha1affected/sha1affected -port 80
+WorkingDirectory=/usr/local/sha1affected
+
+[Install]
+WantedBy=multi-user.target
