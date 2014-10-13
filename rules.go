@@ -56,9 +56,10 @@ func analyseCerts(certs []*x509.Certificate, affected *affectedStages) {
 	for k, cert := range certs {
 		summary := certificate{}
 
-		if k < len(certs)-1 {
-			// Ignore root certificate, this simply assumes that the certificates are returned
-			// in a gurantee order, which may only be conincidental and not guranteed.
+		if len(certs) == 1 || k < len(certs)-1 {
+			// Ignore root certificate but only if there's more than one. This simply assumes
+			// that the certificates are returned in a gurantee order, which may only be
+			// conincidental and not guranteed.
 			// TODO check if crypto/tls is even returning this if the server didn't send it.
 
 			switch cert.SignatureAlgorithm {
