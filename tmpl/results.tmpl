@@ -59,7 +59,7 @@
     <tr><td>Intermediates</td><td>{{.ValidFor}}</td><td>{{.ExpiryDate}}</td><td>{{.SigAlg}}</td></tr>
 {{end}}
 {{with .Affected.RootCertificate}}
-    {{if .Affected.RootCertificate.ValidFor}}
+    {{if .ValidFor}}
         <tr><td>Root</td><td>{{.ValidFor}}</td><td>{{.ExpiryDate}}</td><td><div class="note">Ignored</div></td></tr>
     {{end}}
 {{end}}
