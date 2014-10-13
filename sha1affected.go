@@ -77,6 +77,8 @@ func checkServer(host string) (affected affectedStages, err error) {
 
 	analyseCerts(state.PeerCertificates, &affected)
 
+	log.Println("Finished request")
+
 	return
 
 }

@@ -28,8 +28,11 @@ func resultsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	serverName := r.URL.Query()["server"][0]
 
+	log.Println("Received request for serverName:", serverName)
+
 	host, err := parseServerName(serverName)
 	if err != nil {
+		errorHandler(w, r, http.StatusBadRequest, err)
 		return
 	}
 

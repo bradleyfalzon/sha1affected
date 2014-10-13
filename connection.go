@@ -39,6 +39,8 @@ func checkRateLimit(serverName string) (exceeded bool, err error) {
 	// only needs to check if the entry exists to determine
 	// whether a violation has occurred.
 
+	log.Println("Resolving serverName:", serverName)
+
 	addrs, err := net.LookupIP(serverName)
 	if err != nil {
 		return
@@ -75,18 +77,23 @@ func checkRateLimit(serverName string) (exceeded bool, err error) {
 
 func parseServerName(serverName string) (host string, err error) {
 
+	// url.Parse believes a string "google.com" has an empty host with the path "google.com"
+	// So, if there's no protocol, add a fake one
+	if !URLProtoRE.MatchString(serverName) {
+		serverName = "https://" + serverName
+	}
+
 	url, err := url.Parse(serverName)
 	if err != nil {
 		return
 	}
 
 	if url.Host == "" {
+		log.Printf("%#v\n", url)
 		err = errors.New("Could not parse server name: " + serverName)
 		return
 	}
 	host = url.Host
-
-	log.Println("Parsed to host:", host)
 
 	return
 
