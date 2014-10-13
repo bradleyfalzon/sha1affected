@@ -3,6 +3,16 @@
 <h1>SHA1 &amp; Google Chrome Checker</h1>
 <h2>Results for {{.ServerName}}</h2>
 
+{{if and .Affected.SHA1 .Affected.Expiry}}
+<p class="msg error">The certificates for {{ .ServerName }} will be affected by Google Chrome's SHA1 deprecation policy.</p>
+{{else if .Affected.SHA1}}
+<p class="msg success">Although {{ .ServerName }} has at least one SHA1 certificate in its chain, due to the end identities expiry date ({{ .Affected.ExpiryDate }}), the site will not be affected.</p>
+
+<p class="msg warning">Renewing this certificate and continuing to have a SHA1 signature will likely cause this certificate to be affected.</p>
+{{else}}
+<p class="msg success">The certificates for {{ .ServerName }} do not contain SHA1 signatures and won't be affected.</p>
+{{end}}
+
 {{ if .Affected.SHA1 }}
 <table class="pure-table pure-table-horizontal" id="affectedTable">
 <thead>
@@ -15,19 +25,19 @@
 </thead>
 <tbody>
 <tr>
-    <td>Chrome 39<div class="releaseDate">October/November 2014?</div></td>
+    <td>Chrome 39<div class="note">October/November 2014?</div></td>
     <td>{{with .Affected.Chrome39.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
     <td>{{with .Affected.Chrome39.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
     <td>{{with .Affected.Chrome39.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
 </tr>
 <tr>
-    <td>Chrome 40<div class="releaseDate">After Holiday Season</div></td>
+    <td>Chrome 40<div class="note">After Holiday Season</div></td>
     <td>{{with .Affected.Chrome40.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
     <td>{{with .Affected.Chrome40.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
     <td>{{with .Affected.Chrome40.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
 </tr>
 <tr>
-    <td>Chrome 41<div class="releaseDate">Q1 2015</div></td>
+    <td>Chrome 41<div class="note">Q1 2015</div></td>
     <td>{{with .Affected.Chrome41.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
     <td>{{with .Affected.Chrome41.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
     <td>{{with .Affected.Chrome41.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
@@ -36,17 +46,23 @@
 </table>
 {{end}}
 
-<p>
-{{if and .Affected.SHA1 .Affected.Expiry}}
-The certificates for {{ .ServerName }} will be affected by Google Chrome's SHA1 deprecation policy.
-{{else if .Affected.SHA1}}
-Although {{ .ServerName }} has at least one SHA1 certificate in its chain, due to the end identities expiry date ({{ .Affected.ExpiryDate }}), the site will not be affected.</p>
-
-<p>Renewing this certificate and continuing to have a SHA1 signature will likely cause this certificate to be affected.
-{{else}}
-The certificates for {{ .ServerName }} do not contain SHA1 signatures and won't be affected.
+<h2>Certificate Summary</h2>
+<table class="pure-table pure-table-horizontal" id="summaryTable">
+<thead>
+<tr><th>Type</th><th>Valid For</th><th>Expiry Date</th><th>Signature Algorithm</th></tr>
+</thead>
+<tbody>
+{{with .Affected.Certificate}}
+    <tr><td>End Identity</td><td>{{.ValidFor}}</td><td>{{.ExpiryDate}}</td><td>{{.SigAlg}}</td></tr>
 {{end}}
-</p>
+{{range .Affected.Intermediates}}
+    <tr><td>Intermediates</td><td>{{.ValidFor}}</td><td>{{.ExpiryDate}}</td><td>{{.SigAlg}}</td></tr>
+{{end}}
+{{with .Affected.RootCertificate}}
+    <tr><td>Root</td><td>{{.ValidFor}}</td><td>{{.ExpiryDate}}</td><td><div class="note">Ignored</div></td></tr>
+{{end}}
+</tbody>
+</table>
 
 <h2>Check Another</h2>
 

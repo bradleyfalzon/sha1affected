@@ -70,7 +70,7 @@ func checkServer(serverName string) (affected affectedStages, err error) {
 		log.Fatal(err)
 	}
 
-	containsSHA1(state.PeerCertificates, &affected)
+	analyseCerts(state.PeerCertificates, &affected)
 
 	return
 

@@ -18,6 +18,15 @@ type affectedStages struct {
 	Expiry                       bool
 	SHA1                         bool
 	ExpiryDate                   string
+	Certificate                  certificate
+	RootCertificate              certificate
+	Intermediates                []certificate
+}
+
+type certificate struct {
+	ExpiryDate string
+	ValidFor   string
+	SigAlg     string
 }
 
 type chromeWarnings struct {

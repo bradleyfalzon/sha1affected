@@ -15,12 +15,35 @@ footer .msg { color: #616161; font-size: 0.8em; margin-bottom: 10px; }
 footer .links { margin-bottom: 15px; text-align: center; font-size: 0.9em; color: #d7d7d7; }
 footer .links a { display: inline-block; margin: 0 15px; }
 
-#affectedTable th, #affectedTable td { text-align: center; }
+.msg {
+    border-radius: 5px;
+    padding: 10px;
+}
+.success {
+    background-color: #eff5ea;
+    border: 1px solid #446423;
+    color: #3d6611;
+}
+.warning {
+    background-color: #fafaec;
+    border: 1px solid #fcd344;
+    color: #3d6611;
+}
+.error {
+    background-color: #FAEBE7;
+    border: 1px solid #F16048;
+    color: #DF280A;
+}
+
+#summaryTable th, #summaryTable td, #affectedTable th, #affectedTable td { text-align: center; }
+
 #affectedTable th { vertical-align: top; }
 #affectedTable .imgCont { margin-top: 5px; }
 
-#affectedTable { table-layout: fixed; margin: 0 auto;}
-#affectedTable .releaseDate { color: #616161; font-size: 0.8em; margin-top: 5px; }
+#affectedTable, #summaryTable { table-layout: fixed; margin: 0 auto;}
+#affectedTable .note { margin-top: 5px; }
+
+.note { color: #616161; font-size: 0.8em; }
 
 .serverInput { margin-bottom: 15px; }
 
