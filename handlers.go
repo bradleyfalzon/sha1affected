@@ -67,11 +67,11 @@ func resultsHandler(w http.ResponseWriter, r *http.Request) {
 
 func errorHandler(w http.ResponseWriter, r *http.Request, status int, err error) {
 	w.WriteHeader(status)
-	log.Println("Got error:", err)
 	switch status {
 	case http.StatusNotFound:
 		fmt.Fprint(w, "Page Not Found")
 	default:
+		log.Println("Got error:", err)
 		fmt.Fprint(w, err)
 	}
 }
