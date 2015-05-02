@@ -13,38 +13,38 @@
 <p class="msg success">The certificates for {{ .ServerName }} do not contain SHA1 signatures and won't be affected.</p>
 {{end}}
 
-{{ if .Affected.SHA1 }}
 <table class="pure-table pure-table-horizontal" id="affectedTable">
 <thead>
 <tr>
-    <th>Chrome Version</th>
-    <th>Security Warning<div class="imgCont"><img class="pure-img" src="static/mixedContent.png" ></div></th>
-    <th>Padlock Removed<div class="imgCont"><img class="pure-img" src="static/noSecurity.png" ></div></th>
-    <th>Security Error<div class="imgCont"><img class="pure-img" src="static/securityError.png" ></div></th>
+    <th>Chrome 39<div class="note">November 2014</div></th>
+    <th>Chrome 40<div class="note">January 2015</div></th>
+    <th>Chrome 41+<div class="note">April 2015</div></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-    <td>Chrome 39<div class="note">Current</div></td>
-    <td>{{with .Affected.Chrome39.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
-    <td>{{with .Affected.Chrome39.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
-    <td>{{with .Affected.Chrome39.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
-</tr>
-<tr>
-    <td>Chrome 40<div class="note">After Holiday Season</div></td>
-    <td>{{with .Affected.Chrome40.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
-    <td>{{with .Affected.Chrome40.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
-    <td>{{with .Affected.Chrome40.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
-</tr>
-<tr>
-    <td>Chrome 41<div class="note">Q1 2015</div></td>
-    <td>{{with .Affected.Chrome41.MinorErrors}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
-    <td>{{with .Affected.Chrome41.NoSecurity}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
-    <td>{{with .Affected.Chrome41.Insecure}}<span class="affected">Y</span>{{else}}<span class="unaffected">-</span>{{end}}</td>
+    <td>
+        {{if .Affected.Chrome39.MinorErrors}}<img class="pure-img" src="static/mixedContent.png">
+        {{else if .Affected.Chrome39.NoSecurity}}<img class="pure-img" src="static/noSecurity.png">
+        {{else if .Affected.Chrome39.Insecure}}<img class="pure-img" src="static/securityError.png">
+        {{else}}<img class="pure-img" src="static/greenLock.png">{{end}}
+    </td>
+    <td>
+        {{if .Affected.Chrome40.MinorErrors}}<img class="pure-img" src="static/mixedContent.png">
+        {{else if .Affected.Chrome40.NoSecurity}}<img class="pure-img" src="static/noSecurity.png">
+        {{else if .Affected.Chrome40.Insecure}}<img class="pure-img" src="static/securityError.png">
+        {{else}}<img class="pure-img" src="static/greenLock.png">{{end}}
+    </td>
+    <td>
+
+        {{if .Affected.Chrome41.MinorErrors}}<img class="pure-img" src="static/mixedContent.png">
+        {{else if .Affected.Chrome41.NoSecurity}}<img class="pure-img" src="static/noSecurity.png">
+        {{else if .Affected.Chrome41.Insecure}}<img class="pure-img" src="static/securityError.png">
+        {{else}}<img class="pure-img" src="static/greenLock.png">{{end}}
+    </td>
 </tr>
 </tbody>
 </table>
-{{end}}
 
 <h2>Certificate Summary</h2>
 <table class="pure-table pure-table-horizontal" id="summaryTable">
