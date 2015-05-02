@@ -11,12 +11,14 @@ import (
 )
 
 var caPool *x509.CertPool
+var debug *bool
 
 func main() {
 
 	port := flag.Int("port", 3000, "Port number for web server to listen on.")
 	serverName := flag.String("connect", "", "Check a single server and exit.")
 	rootCAFile := flag.String("cafile", "", "Load root certificates from this file.")
+	debug = flag.Bool("v", false, "Run in debug mode")
 
 	flag.Parse()
 
