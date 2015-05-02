@@ -58,37 +58,7 @@ func analyseCerts(certs []*x509.Certificate, affected *affectedStages) {
 
 		if !isRootCA(cert) {
 			// Ignore root certificate as no-one trusts the signature itself
-
-			switch cert.SignatureAlgorithm {
-			case x509.SHA1WithRSA:
-				summary.SigAlg = "SHA1"
-				affected.SHA1 = true
-			case x509.DSAWithSHA1:
-				summary.SigAlg = "SHA1"
-				affected.SHA1 = true
-			case x509.ECDSAWithSHA1:
-				summary.SigAlg = "SHA1"
-				affected.SHA1 = true
-			case x509.MD5WithRSA:
-				summary.SigAlg = "MD5"
-			case x509.SHA256WithRSA:
-				summary.SigAlg = "SHA256"
-			case x509.SHA384WithRSA:
-				summary.SigAlg = "SHA384"
-			case x509.SHA512WithRSA:
-				summary.SigAlg = "SHA512"
-			case x509.DSAWithSHA256:
-				summary.SigAlg = "SHA256"
-			case x509.ECDSAWithSHA256:
-				summary.SigAlg = "SHA256"
-			case x509.ECDSAWithSHA384:
-				summary.SigAlg = "SHA384"
-			case x509.ECDSAWithSHA512:
-				summary.SigAlg = "SHA512"
-			default:
-				summary.SigAlg = "Unknown"
-			}
-
+			affected.SHA1, summary.SigAlg = certSigAlg(cert)
 		}
 
 		summary.ExpiryDate = cert.NotAfter.Format("2006-01-02")
@@ -107,6 +77,42 @@ func analyseCerts(certs []*x509.Certificate, affected *affectedStages) {
 		}
 
 	}
+
+}
+
+func certSigAlg(cert *x509.Certificate) (sha1 bool, sigAlg string) {
+
+	switch cert.SignatureAlgorithm {
+	case x509.SHA1WithRSA:
+		sigAlg = "SHA1"
+		sha1 = true
+	case x509.DSAWithSHA1:
+		sigAlg = "SHA1"
+		sha1 = true
+	case x509.ECDSAWithSHA1:
+		sigAlg = "SHA1"
+		sha1 = true
+	case x509.MD5WithRSA:
+		sigAlg = "MD5"
+	case x509.SHA256WithRSA:
+		sigAlg = "SHA256"
+	case x509.SHA384WithRSA:
+		sigAlg = "SHA384"
+	case x509.SHA512WithRSA:
+		sigAlg = "SHA512"
+	case x509.DSAWithSHA256:
+		sigAlg = "SHA256"
+	case x509.ECDSAWithSHA256:
+		sigAlg = "SHA256"
+	case x509.ECDSAWithSHA384:
+		sigAlg = "SHA384"
+	case x509.ECDSAWithSHA512:
+		sigAlg = "SHA512"
+	default:
+		sigAlg = "Unknown"
+	}
+
+	return
 
 }
 
