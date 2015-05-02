@@ -23,6 +23,7 @@
 </thead>
 <tbody>
 <tr>
+{{ if .Affected.SHA1 }}
     <td>
         {{if .Affected.Chrome39.MinorErrors}}<img class="pure-img" src="static/mixedContent.png">
         {{else if .Affected.Chrome39.NoSecurity}}<img class="pure-img" src="static/noSecurity.png">
@@ -36,12 +37,16 @@
         {{else}}<img class="pure-img" src="static/greenLock.png">{{end}}
     </td>
     <td>
-
         {{if .Affected.Chrome41.MinorErrors}}<img class="pure-img" src="static/mixedContent.png">
         {{else if .Affected.Chrome41.NoSecurity}}<img class="pure-img" src="static/noSecurity.png">
         {{else if .Affected.Chrome41.Insecure}}<img class="pure-img" src="static/securityError.png">
         {{else}}<img class="pure-img" src="static/greenLock.png">{{end}}
     </td>
+{{else}}
+    <td><img class="pure-img" src="static/greenLock.png"></td>
+    <td><img class="pure-img" src="static/greenLock.png"></td>
+    <td><img class="pure-img" src="static/greenLock.png"></td>
+{{end}}
 </tr>
 </tbody>
 </table>
