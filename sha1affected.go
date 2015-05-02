@@ -101,18 +101,55 @@ func checkServer(host string) (affected affectedStages, err error) {
 		return
 	}
 
+	if *debug {
+		log.Printf("PeerCertificates: %#v\n", state.PeerCertificates)
+		log.Printf("VerifiedChains (count: %d): %#v\n", len(state.VerifiedChains), state.VerifiedChains)
+
+		for _, chain := range state.VerifiedChains {
+			log.Printf("Chain: %#v\n", chain)
+			for _, cert := range chain {
+				log.Printf("\tSubject: %#v\n", cert.Subject.CommonName)
+				log.Printf("\tIssuer: %#v\n", cert.Issuer.CommonName)
+				log.Printf("\tSignatureAlg: %#v\n", cert.SignatureAlgorithm)
+			}
+		}
+	}
+
 	affected, err = datesAffected(state.PeerCertificates[0].NotAfter)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if len(state.PeerCertificates) == 0 {
+	if len(state.VerifiedChains) == 0 {
 		log.Printf("Error, found %d PeerCertificates and %d verified chains\n", len(state.PeerCertificates), len(state.VerifiedChains))
 		err = errors.New("Could not verify certificate chain, are you missing an intermediate certificate?")
 		return
 	}
 
-	analyseCerts(state.PeerCertificates, &affected)
+	// Choose the first verified chain
+	checkChain := state.VerifiedChains[0]
+
+	// Check if there's another chain that doesn't have sha1, chances are Google won't have an issue with this one
+CheckAltChains:
+	for _, chain := range state.VerifiedChains {
+		for _, cert := range chain {
+			if containsSHA1, _ := certSigAlg(cert); !containsSHA1 && !isRootCA(cert) {
+				checkChain = chain
+				break CheckAltChains
+			}
+		}
+	}
+
+	if *debug {
+		log.Println("Chosen chain:")
+		for _, cert := range checkChain {
+			log.Printf("\tSubject: %#v\n", cert.Subject.CommonName)
+			log.Printf("\tIssuer: %#v\n", cert.Issuer.CommonName)
+			log.Printf("\tSignatureAlg: %#v\n", cert.SignatureAlgorithm)
+		}
+	}
+
+	analyseCerts(checkChain, &affected)
 
 	log.Println("Finished request")
 
