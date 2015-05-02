@@ -49,7 +49,7 @@ func resultsHandler(w http.ResponseWriter, r *http.Request) {
 
 	affected, err := checkServer(host)
 	if err != nil {
-		errorHandler(w, r, http.StatusInternalServerError, err)
+		errorHandler(w, r, http.StatusBadRequest, fmt.Errorf("Error checking %s: %s", host, err))
 		return
 	}
 
@@ -70,8 +70,18 @@ func errorHandler(w http.ResponseWriter, r *http.Request, status int, err error)
 	switch status {
 	case http.StatusNotFound:
 		fmt.Fprint(w, "Page Not Found")
+		return
 	default:
-		log.Println("Got error:", err)
-		fmt.Fprint(w, err)
+		log.Println(err)
+	}
+
+	page := ErrorPage{
+		PageTitle: "Error",
+		Err:       err,
+	}
+
+	err = templates.ExecuteTemplate(w, "error.tmpl", page)
+	if err != nil {
+		log.Println("Error executing template error: ", err)
 	}
 }

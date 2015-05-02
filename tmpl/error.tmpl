@@ -1,0 +1,13 @@
+{{template "header.tmpl" .}}
+
+<h1>SHA1 &amp; Google Chrome Checker</h1>
+
+<p class="msg error">{{ .Err }}</p>
+
+<p>If we failed to verify the chain correctly it maybe because the site is using self signed certificates or there are missing intermediate certificates.</p>
+
+<h2>Check Another</h2>
+
+{{template "checkForm.tmpl"}}
+
+{{template "footer.tmpl" .}}
