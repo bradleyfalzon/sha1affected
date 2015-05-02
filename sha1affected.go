@@ -1,19 +1,28 @@
 package main
 
 import (
+	"crypto/x509"
 	"errors"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
+
+var caPool *x509.CertPool
 
 func main() {
 
 	port := flag.Int("port", 3000, "Port number for web server to listen on.")
 	serverName := flag.String("connect", "", "Check a single server and exit.")
+	rootCAFile := flag.String("cafile", "", "Load root certificates from this file.")
 
 	flag.Parse()
+
+	if *rootCAFile != "" {
+		parseCAFile(*rootCAFile)
+	}
 
 	if *serverName == "" {
 		startWebServer(*port)
@@ -21,6 +30,25 @@ func main() {
 		cliCheck(*serverName)
 	}
 
+}
+
+// Parse a file for root CA certificates instead of using system cas
+func parseCAFile(rootCAFile string) (err error) {
+	log.Println("Loading root certificates from:", rootCAFile)
+
+	caPool = x509.NewCertPool()
+
+	fileBytes, err := ioutil.ReadFile(rootCAFile)
+
+	if err != nil {
+		return
+	}
+
+	if ok := caPool.AppendCertsFromPEM(fileBytes); !ok {
+		return errors.New("Could not read certs from rootCAFile: " + rootCAFile)
+	}
+
+	return
 }
 
 func cliCheck(serverName string) {

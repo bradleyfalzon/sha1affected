@@ -18,7 +18,12 @@ func getTLSState(serverName string) (state tls.ConnectionState, err error) {
 
 	log.Println("Connecting to:", serverName)
 
-	conn, err := tls.Dial("tcp", serverName, &tls.Config{InsecureSkipVerify: true})
+	config := &tls.Config{
+		InsecureSkipVerify: false,
+		RootCAs:            caPool,
+	}
+
+	conn, err := tls.Dial("tcp", serverName, config)
 	if err != nil {
 		return
 	}
