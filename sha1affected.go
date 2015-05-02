@@ -38,7 +38,7 @@ func cliCheck(serverName string) {
 	}
 
 	if affected.SHA1 && affected.Expiry {
-		fmt.Printf("You have a SHA1 certificate and an expiry date (%s) that will be affected.", affected.Certificate.ExpiryDate)
+		fmt.Printf("You have a SHA1 certificate and an expiry date (%s) that will be affected.\n", affected.Certificate.ExpiryDate)
 		fmt.Printf("Chrome 39: Minor Errors %v, No Security %v, Insecure %v\n", affected.Chrome39.MinorErrors, affected.Chrome39.NoSecurity, affected.Chrome39.Insecure)
 		fmt.Printf("Chrome 40: Minor Errors %v, No Security %v, Insecure %v\n", affected.Chrome40.MinorErrors, affected.Chrome40.NoSecurity, affected.Chrome40.Insecure)
 		fmt.Printf("Chrome 41: Minor Errors %v, No Security %v, Insecure %v\n", affected.Chrome41.MinorErrors, affected.Chrome41.NoSecurity, affected.Chrome41.Insecure)
