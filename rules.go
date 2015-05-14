@@ -55,10 +55,15 @@ func analyseCerts(certs []*x509.Certificate, affected *affectedStages) {
 
 	for _, cert := range certs {
 		summary := certificate{}
+		hasSHA1 := false
 
 		if !isRootCA(cert) {
 			// Ignore root certificate as no-one trusts the signature itself
-			affected.SHA1, summary.SigAlg = certSigAlg(cert)
+			hasSHA1, summary.SigAlg = certSigAlg(cert)
+
+			if hasSHA1 {
+				affected.SHA1 = true
+			}
 		}
 
 		summary.ExpiryDate = cert.NotAfter.Format("2006-01-02")
