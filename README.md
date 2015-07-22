@@ -4,6 +4,8 @@ SHA1 Affected
 Checks whether a TLS connection uses SHA1 signed certificates, and if Google Chrome will raise warnings in near future
 versions.
 
+Note: the quality of this code is questionable, and serves only as a warning to others.
+
 Usage
 =====
 
