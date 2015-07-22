@@ -25,5 +25,5 @@ a single host without starting the web server using the the ```-connect``` param
 # ./sha1affected <- start web server on port 3000
 # ./sha1affected -port 80 <- start web server on port 80
 # ./sha1affected -connect yahoo.com <- check server yahoo.com
-# ./sha1affected -connect yahoo.com:443 <- optionall specify a port to connect to
+# ./sha1affected -connect yahoo.com:443 <- optionally specify a port to connect to
 ```
